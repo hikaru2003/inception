@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  mariadb:
+    build: ./mariadb
+    ports:
+      - "80:80"
+  nginx:
+    build: ./nginx
+    ports:
+      - "81:81"
+  wordpress:
+    build: ./wordpress
+    ports:
+      - "82:82"
