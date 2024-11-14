@@ -51,3 +51,9 @@ docker container stop [option] <container>
 # コンテナを削除
 docker container rm 
 ```
+
+```
+docker compose up --build -d
+# 確認よう
+docker ps 
+```

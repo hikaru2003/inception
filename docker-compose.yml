@@ -1,15 +1,40 @@
-version: '3'
+# version: '3'
 
 services:
-  mariadb:
-    build: ./mariadb
-    ports:
-      - "80:80"
+  # mariadb:
+  #   build: ./mariadb
+  #   ports:
+  #     - "80:80"
   nginx:
     build: ./nginx
+    image: nginx
+    container_name: nginx
     ports:
-      - "81:81"
+      - "80:80"
+    networks:
+      - test
+    volumes:
+      - wordpress:/var/www/html
   wordpress:
     build: ./wordpress
+    image: wordpress
+    container_name: wordpress
     ports:
       - "82:82"
+    networks:
+      - test
+    volumes:
+      - wordpress:/var/www/html
+
+networks:
+  test:
+    # driver: bridge
+
+volumes:
+  wordpress:
+    driver: local
+    name: wordpress
+    driver_opts:
+      type: none
+      device: ~/Desktop/42Tokyo/inception/wordpress/volume
+      o: bind
