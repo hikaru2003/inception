@@ -7,16 +7,12 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.php index.nginx-debian.html;
 
-	# server_name _;
-
-	# location / {
-	# 	try_files $uri $uri/ =404;
-	# }
+	# server_name localhost;
 
 	# pass PHP scripts to FastCGI server
-	#
 	location ~ \.php$ {
 		include snippets/fastcgi-php.conf;
-		fastcgi_pass wordpress:9000;
+    	fastcgi_pass wordpress:9000;
+    	fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;
 	}
 }
