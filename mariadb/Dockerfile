@@ -4,5 +4,8 @@ RUN apt update
 RUN apt install -y vim curl wget
 RUN apt install -y mariadb-server
 
+ADD ./init.sh ./init.sh
+RUN chmod +x ./init.sh
+
 # CMD ["mysqld"]
-ENTRYPOINT ["/bin/sh", "-c", "while :; do sleep 10; done"]
+ENTRYPOINT ["./init.sh"]

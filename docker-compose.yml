@@ -1,10 +1,19 @@
 # version: '3'
 
 services:
-  # mariadb:
-  #   build: ./mariadb
-  #   ports:
-  #     - "80:80"
+  mariadb:
+    build: ./mariadb
+    image: mariadb
+    container_name: mariadb
+    networks:
+      - test
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    # ports:
+    #   - "80:80"
   nginx:
     build: ./nginx
     image: nginx
@@ -13,18 +22,26 @@ services:
       - "80:80"
     networks:
       - test
+    restart: always
     volumes:
       - wordpress:/var/www/html
+    depends_on:
+      - wordpress
   wordpress:
     build: ./wordpress
     image: wordpress
     container_name: wordpress
-    ports:
-      - "82:82"
+    # ports:
+    #   - "82:82"
     networks:
       - test
+    restart: always
+    env_file:
+      - .env
     volumes:
       - wordpress:/var/www/html
+    depends_on:
+      - mariadb
 
 networks:
   test:
@@ -37,4 +54,11 @@ volumes:
     driver_opts:
       type: none
       device: ~/Desktop/42Tokyo/inception/wordpress/volume
+      o: bind
+  db_data:
+    driver: local
+    name: db_data
+    driver_opts:
+      type: none
+      device: ~/Desktop/42Tokyo/inception/wordpress/db_data
       o: bind
