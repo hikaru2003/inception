@@ -1,0 +1,77 @@
+# version: '3'
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    restart: always
+    networks:
+      - inception
+    env_file:
+      - ./requirements/mariadb/.env
+
+    # environment:
+    #   - name=value
+    # healthcheck:
+    #   test: ["executable", "arg"]
+    #   interval: 1m30s
+    #   timeout: 30s
+    #   retries: 5
+    #   start_period: 30s
+
+  wordpress:
+    depends_on:
+      - mariadb
+
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress:/var/www/html
+    restart: always
+    networks:
+      - inception
+    env_file:
+      - ./requirements/wordpress/.env
+
+  nginx:
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+      # - "443:443"
+    restart: always
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception
+    env_file:
+      - ./requirements/nginx/.env
+
+networks:
+  inception:
+    name: inception
+
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/volume
+      # TODO device: ${WORDPRESS_VOLUME_PATH}
+      o: bind
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      type: bind
+      device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/mariadb
+      # TODO device: ${MARIADB_VOLUME_PATH}
+      o: bind

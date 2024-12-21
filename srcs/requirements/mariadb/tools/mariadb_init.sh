@@ -1,9 +1,4 @@
 #!/bin/bash
-# set -e
-
-# confの書き換え
-echo "change bind-address..."
-sed -i 's/^bind-address\s*=\s*127\.0\.0\.1/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # mariadbのデータディレクトリが存在しない場合、初期化を行う
 if [ ! -d "/var/lib/mysql/mysql" ]; then
