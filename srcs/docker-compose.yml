@@ -11,7 +11,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/mariadb/.env_example
+      - ./requirements/mariadb/.env
 
     # environment:
     #   - name=value
@@ -35,7 +35,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/wordpress/.env_example
+      - ./requirements/wordpress/.env
 
   nginx:
     depends_on:
@@ -53,7 +53,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/nginx/.env_example
+      - ./requirements/nginx/.env
 
 networks:
   inception:
@@ -65,14 +65,16 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/volume
-      # TODO device: ${WORDPRESS_VOLUME_PATH}
+      #device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/volume
+      # TODO
+      device: ${WORDPRESS_VOLUME_PATH}
       o: bind
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
       type: bind
-      device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/mariadb
-      # TODO device: ${MARIADB_VOLUME_PATH}
+      #device: /Users/hikaru/Desktop/42Tokyo/inception/srcs/requirements/wordpress/mariadb
+      # TODO
+      device: ${MARIADB_VOLUME_PATH}
       o: bind
