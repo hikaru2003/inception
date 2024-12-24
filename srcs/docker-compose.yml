@@ -11,7 +11,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/mariadb/.env
+      - ./requirements/mariadb/.env_example
 
     # environment:
     #   - name=value
@@ -35,7 +35,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/wordpress/.env
+      - ./requirements/wordpress/.env_example
 
   nginx:
     depends_on:
@@ -53,7 +53,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./requirements/nginx/.env
+      - ./requirements/nginx/.env_example
 
 networks:
   inception:
